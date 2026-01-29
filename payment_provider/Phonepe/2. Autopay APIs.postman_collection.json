@@ -1,0 +1,497 @@
+{
+  "info": {
+    "_postman_id": "6d654a3d-e3b0-4311-bee8-7729659d5cd6",
+    "name": "2. Autopay APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "4632692",
+    "_collection_link": "https://go.postman.co/collection/37191720-6d654a3d-e3b0-4311-bee8-7729659d5cd6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Fetch Auth Token API",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "client_id",
+              "value": "{{client_id}}",
+              "type": "text"
+            },
+            {
+              "key": "client_version",
+              "value": "{{client_version}}",
+              "type": "text"
+            },
+            {
+              "key": "client_secret",
+              "value": "{{client_secret}}",
+              "type": "text"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "v1",
+            "oauth",
+            "token"
+          ]
+        },
+        "description": "> This is the base API. In order to call any of the APIs, you need to get the Authorization Token from PhonePe using your Client Details provided by us. Once you pass the Client Secret, Client ID and Client Version in this API, you will get the \"Authorization Token\" in response."
+      },
+      "response": []
+    },
+    {
+      "name": "Setup API- UPI Intent",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchantOrderId\": \"MO1709025658932\",\n    \"amount\": 200,\n    \"expireAt\": 1709058548000,\n    \"metaInfo\": {\n        \"udf1\": \"some meta info of max length 256\",\n        \"udf2\": \"some meta info of max length 256\",\n        \"udf3\": \"some meta info of max length 256\",\n        \"udf4\": \"some meta info of max length 256\",\n        \"udf5\": \"some meta info of max length 256\"\n    },\n    \"paymentFlow\": {\n        \"type\": \"SUBSCRIPTION_SETUP\",\n        \"merchantSubscriptionId\": \"MS1709025658932\",\n        \"authWorkflowType\": \"TRANSACTION\",\n        \"amountType\": \"FIXED\",\n        \"maxAmount\": 200,\n        \"frequency\": \"ON_DEMAND\",\n        \"expireAt\": 1737278524000,\n        \"paymentMode\": {\n            \"type\": \"UPI_INTENT\",\n            \"targetApp\": \"com.phonepe.app\"\n        }\n    },\n    \"deviceContext\": {\n        \"deviceOS\": \"ANDROID\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/setup",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "setup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Setup API- UPI Collect",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchantOrderId\": \"MO1709025691805\",\n    \"amount\": 200,\n    \"expireAt\": 1709058548000,\n    \"metaInfo\": {\n        \"udf1\": \"some meta info of max length 256\",\n        \"udf2\": \"some meta info of max length 256\",\n        \"udf3\": \"some meta info of max length 256\",\n        \"udf4\": \"some meta info of max length 256\",\n        \"udf5\": \"some meta info of max length 256\"\n    },\n    \"paymentFlow\": {\n        \"type\": \"SUBSCRIPTION_SETUP\",\n        \"merchantSubscriptionId\": \"MS1709025691805\",\n        \"authWorkflowType\": \"TRANSACTION\",\n        \"amountType\": \"VARIABLE\",\n        \"maxAmount\": 2000,\n        \"frequency\": \"ON_DEMAND\",\n        \"expireAt\": 1737278524000,\n        \"paymentMode\": {\n            \"type\": \"UPI_COLLECT\",\n            \"details\": {\n                \"type\": \"VPA\",\n                \"vpa\": \"999@ybl\"\n            }\n        }\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/setup",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "setup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Order Status API",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/order/{{merchantOrderId}}/status?details=true",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "order",
+            "{{merchantOrderId}}",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "details",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subscription Status API",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/{{merchantSubscriptionId}}/status?details=true",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "{{merchantSubscriptionId}}",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "details",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Redemption – Notify API",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"merchantOrderId\": \"ggtftftfftft\",\n  \"amount\": 2000,\n  \"expireAt\": 1620891733101,\n  \"metaInfo\": {\n    \"udf1\": \"<some meta info of max length 256>\",\n    \"udf2\": \"<some meta info of max length 256>\",\n    \"udf3\": \"<some meta info of max length 256>\",\n    \"udf4\": \"<some meta info of max length 256>\",\n    \"udf5\": \"<some meta info of max length 256>\"\n  },\n  \"paymentFlow\": {\n    \"type\": \"SUBSCRIPTION_REDEMPTION\",\n    \"merchantSubscriptionId\": \"ms656657ggyvver\",\n    \"redemptionRetryStrategy\": \"STANDARD\",\n    \"autoDebit\": true\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/notify",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "notify"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Redemption – Execute API",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"merchantOrderId\": \"ggtftftfftft\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/redeem",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "redeem"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subscription Cancel API",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/{{merchantSubscriptionId}}/cancel",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "{{merchantSubscriptionId}}",
+            "cancel"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Redemption – Order Status API",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/subscriptions/v2/order/{{merchantOrderId}}/status?details=true",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "subscriptions",
+            "v2",
+            "order",
+            "{{merchantOrderId}}",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "details",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subscription - Refund API",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchantRefundId\": \"testrefundNUMBER445544\",\n    \"originalMerchantOrderId\": \"newtxn123456\",\n    \"amount\": 1234\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/payments/v2/refund",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "payments",
+            "v2",
+            "refund"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subscription  - Refund Status API",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "O-Bearer {{access-token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-preprod.phonepe.com/apis/pg-sandbox/payments/v2/refund/{{merchantRefundId}}/status",
+          "protocol": "https",
+          "host": [
+            "api-preprod",
+            "phonepe",
+            "com"
+          ],
+          "path": [
+            "apis",
+            "pg-sandbox",
+            "payments",
+            "v2",
+            "refund",
+            "{{merchantRefundId}}",
+            "status"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
